@@ -87,5 +87,35 @@
         "lesson_id": "56a3d5dc",
         "date": "2025-07-23T17:35:06.810150",
         "created_at": "2025-07-23T17:35:06.810163"
+    },
+    {
+        "id": "0e0b40d5",
+        "student_name": "Матвей",
+        "amount": -1200.0,
+        "type": "expense",
+        "description": "Оплата урока 4aaca282",
+        "lesson_id": "4aaca282",
+        "date": "2025-07-25T11:23:25.348494",
+        "created_at": "2025-07-25T11:23:25.348498"
+    },
+    {
+        "id": "10cfe5de",
+        "student_name": "Лиза",
+        "amount": -1000.0,
+        "type": "expense",
+        "description": "Оплата урока 4e76493a",
+        "lesson_id": "4e76493a",
+        "date": "2025-07-25T11:23:25.363716",
+        "created_at": "2025-07-25T11:23:25.363722"
+    },
+    {
+        "id": "0e6d3edc",
+        "student_name": "Лиза",
+        "amount": -1000.0,
+        "type": "expense",
+        "description": "Оплата урока fccea91e",
+        "lesson_id": "fccea91e",
+        "date": "2025-07-25T14:31:52.087218",
+        "created_at": "2025-07-25T14:31:52.087230"
     }
 ]
