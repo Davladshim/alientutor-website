@@ -13,134 +13,228 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: transparent;
-            color: #333;
-            font-size: 14px;
-            line-height: 1.4;
+            overflow-x: hidden;
+            min-height: 100vh;
+            transition: all 1s ease;
+            color: #D9F6F4;
+            background: linear-gradient(135deg, #151A21 0%, #394659 100%);
         }
 
-        .widget-container {
-            max-width: 100%;
-            margin: 0;
-            padding: 20px;
-            background: #ffffff;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            border: 1px solid #f0f0f0;
+        /* Темная космическая тема по умолчанию */
+        .theme-dark {
+            background: linear-gradient(135deg, #151A21 0%, #394659 100%);
+            color: #D9F6F4;
         }
 
-        .widget-header {
-            text-align: center;
-            margin-bottom: 25px;
+        /* Светлая небесная тема */
+        .theme-light {
+            background: linear-gradient(135deg, #87CEEB 0%, #E0F6FF 100%);
+            color: #2C3E50;
+        }
+
+        /* ПЕРЕКЛЮЧАТЕЛЬ ТЕМ - ПОЛЗУНОК */
+        .theme-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .theme-switcher:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.02);
+        }
+
+        .theme-icon {
+            font-size: 18px;
+            transition: all 0.3s ease;
+            opacity: 0.6;
+        }
+
+        .theme-icon.active {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .switch-track {
+            width: 50px;
+            height: 25px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
             position: relative;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-        .widget-title {
-            font-size: 24px;
-            font-weight: 700;
-            color: #2c3e50;
-            margin-bottom: 8px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .switch-thumb {
+            width: 18px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 2.5px;
+            left: 3px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .theme-light .switch-thumb {
+            transform: translateX(26px);
+            background: #FFD700;
+            box-shadow: 0 2px 8px rgba(255, 215, 0, 0.4);
+        }
+
+        .theme-dark .switch-track {
+            background: rgba(21, 26, 33, 0.6);
+        }
+
+        .theme-light .switch-track {
+            background: rgba(135, 206, 235, 0.6);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .theme-light .header {
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #5ED9D7;
+            text-shadow: 0 0 20px rgba(94, 217, 215, 0.5);
+            margin-bottom: 10px;
+        }
+
+        .theme-light .header h1 {
+            background: linear-gradient(45deg, #00d4ff, #7c3aed, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+            color: #D9F6F4;
+        }
+
+        .theme-light .header p {
+            color: #34495e;
+            opacity: 0.8;
+        }
+
+        /* СТАТИСТИКА УЧЕНИКА (теперь 6 полей для родителей) */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background: rgba(0, 212, 255, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            transition: all 0.3s ease;
+            min-width: 140px;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-2px);
+            background: rgba(0, 212, 255, 0.15);
+        }
+
+        .theme-light .stat-item {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.15), rgba(124, 58, 237, 0.15));
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            box-shadow: 0 4px 16px rgba(0, 212, 255, 0.2);
+        }
+
+        .theme-light .stat-item:hover {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.25), rgba(124, 58, 237, 0.25));
+            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #5ED9D7;
+            margin-bottom: 5px;
+        }
+
+        .theme-light .stat-number {
+            background: linear-gradient(45deg, #00d4ff, #7c3aed);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        .widget-subtitle {
-            color: #7f8c8d;
-            font-size: 16px;
-            font-weight: 500;
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            color: #D9F6F4;
+            line-height: 1.2;
         }
 
-        .parent-badge {
-            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 600;
-            margin-top: 8px;
-            display: inline-block;
+        .theme-light .stat-label {
+            color: #2C3E50;
         }
 
-        /* СТАТИСТИКА РОДИТЕЛЕЙ (6 полей) */
-        .stats-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 25px;
-            border-radius: 16px;
-            margin-bottom: 30px;
-            position: relative;
-            overflow: hidden;
+        .calendar-section {
+            margin-bottom: 40px;
         }
 
-        .stats-section::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            animation: pulse 4s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(0.8); opacity: 0.5; }
-            50% { transform: scale(1.2); opacity: 0.8; }
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 20px;
-            z-index: 1;
-            position: relative;
-        }
-
-        .stats-item {
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
             text-align: center;
-            padding: 15px;
-            background: rgba(255,255,255,0.15);
-            border-radius: 12px;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
+            color: #5ED9D7;
+            text-shadow: 0 0 15px rgba(94, 217, 215, 0.4);
         }
 
-        .stats-item:hover {
-            transform: translateY(-2px);
-            background: rgba(255,255,255,0.25);
+        .theme-light .section-title {
+            background: linear-gradient(45deg, #00d4ff, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
         }
 
-        .stats-value {
-            font-weight: 800;
-            font-size: 24px;
-            margin-bottom: 6px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .stats-label {
-            font-size: 12px;
-            opacity: 0.9;
-            font-weight: 500;
-        }
-
-        /* Специальные стили для финансовых полей */
-        .stats-item.financial {
-            border: 2px solid rgba(255,255,255,0.3);
-        }
-
-        .stats-item.debt {
-            background: rgba(231, 76, 60, 0.2);
-            border: 2px solid rgba(231, 76, 60, 0.4);
-        }
-
-        .stats-item.stock {
-            background: rgba(39, 174, 96, 0.2);
-            border: 2px solid rgba(39, 174, 96, 0.4);
-        }
-
-        /* Переключатель видов */
+        /* ПЕРЕКЛЮЧАТЕЛЬ ВИДОВ */
         .view-toggle {
             display: flex;
             justify-content: center;
@@ -149,75 +243,126 @@
 
         .view-toggle-container {
             display: flex;
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 4px;
-            border: 1px solid #e9ecef;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .theme-light .view-toggle-container {
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid rgba(255, 215, 0, 0.3);
         }
 
         .view-toggle-btn {
             padding: 10px 20px;
             background: transparent;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
             font-size: 14px;
             font-weight: 600;
-            color: #6c757d;
+            color: rgba(217, 246, 244, 0.8);
             transition: all 0.3s ease;
         }
 
         .view-toggle-btn.active {
-            background: #4a90e2;
+            background: linear-gradient(45deg, #00d4ff, #7c3aed);
             color: white;
-            box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
         }
 
-        /* Основная секция расписания */
-        .schedule-section {
-            background: #fff;
-            border-radius: 12px;
-            padding: 20px;
-            border: 1px solid #f0f0f0;
+        .theme-light .view-toggle-btn {
+            color: #2C3E50;
         }
 
-        .schedule-header {
+        .theme-light .view-toggle-btn.active {
+            background: linear-gradient(45deg, #3498db, #e67e22);
+            color: white;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        /* ЗАГОЛОВОК КАЛЕНДАРЯ */
+        .calendar-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 10px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .theme-light .calendar-header {
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
         .schedule-nav-btn {
-            background: #4a90e2;
-            color: white;
+            background: linear-gradient(45deg, #7c3aed, #00d4ff);
             border: none;
+            color: white;
             padding: 10px 15px;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
             font-size: 14px;
             font-weight: 600;
             transition: all 0.3s ease;
             text-decoration: none;
             display: inline-block;
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);
         }
 
         .schedule-nav-btn:hover {
-            background: #357abd;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(124, 58, 237, 0.6);
+        }
+
+        .theme-light .schedule-nav-btn {
+            background: linear-gradient(45deg, #00d4ff, #7c3aed);
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
+        }
+
+        .theme-light .schedule-nav-btn:hover {
+            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.6);
         }
 
         .schedule-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #2c3e50;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #5ED9D7;
             text-align: center;
         }
 
-        /* Недельный вид - сетка столбцов */
+        .theme-light .schedule-title {
+            background: linear-gradient(45deg, #00d4ff, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ОСНОВНАЯ СЕКЦИЯ РАСПИСАНИЯ */
+        .schedule-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .theme-light .schedule-section {
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+/* НЕДЕЛЬНЫЙ ВИД - СЕТКА */
         .week-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
@@ -226,33 +371,55 @@
         }
 
         .week-day-column {
-            background: #f8f9fa;
-            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
             padding: 15px;
             min-height: 300px;
-            border: 2px solid #e9ecef;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.3s ease;
+            position: relative;
         }
 
         .week-day-column:hover {
+            background: rgba(255, 255, 255, 0.1);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .theme-light .week-day-column {
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .theme-light .week-day-column:hover {
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 8px 24px rgba(0, 212, 255, 0.3);
         }
 
         .week-day-column.today {
-            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
-            border-color: #fdcb6e;
+            background: rgba(0, 212, 255, 0.2) !important;
+            border: 2px solid #00d4ff !important;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+        }
+
+        .theme-light .week-day-column.today {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.3), rgba(124, 58, 237, 0.3)) !important;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
         }
 
         .week-day-header {
-            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
-            color: white;
+            background: rgba(124, 58, 237, 0.3);
             padding: 12px;
-            border-radius: 8px;
+            border-radius: 10px;
             text-align: center;
             font-weight: bold;
+            color: #ffffff;
             margin-bottom: 15px;
-            box-shadow: 0 2px 8px rgba(74, 144, 226, 0.2);
+        }
+
+        .theme-light .week-day-header {
+            background: linear-gradient(45deg, #00d4ff, #7c3aed);
+            box-shadow: 0 4px 16px rgba(0, 212, 255, 0.3);
         }
 
         .week-day-name {
@@ -275,7 +442,7 @@
             display: inline-block;
         }
 
-        /* Месячный вид */
+        /* МЕСЯЧНЫЙ ВИД */
         .month-grid {
             display: none;
         }
@@ -291,7 +458,7 @@
         }
 
         .month-header {
-            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            background: rgba(124, 58, 237, 0.3);
             color: white;
             padding: 12px;
             text-align: center;
@@ -299,53 +466,88 @@
             border-radius: 6px;
         }
 
+        .theme-light .month-header {
+            background: linear-gradient(45deg, #00d4ff, #7c3aed);
+            box-shadow: 0 4px 16px rgba(0, 212, 255, 0.3);
+        }
+
         .month-day {
             min-height: 100px;
-            border: 1px solid #e0e0e0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 8px;
-            border-radius: 6px;
-            background: #f8f9fa;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
             vertical-align: top;
             position: relative;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .month-day:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .theme-light .month-day {
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .theme-light .month-day:hover {
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 8px 24px rgba(0, 212, 255, 0.3);
         }
 
         .month-day.today {
-            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
-            border: 2px solid #fdcb6e;
+            background: rgba(0, 212, 255, 0.2) !important;
+            border: 2px solid #00d4ff !important;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+        }
+
+        .theme-light .month-day.today {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.3), rgba(124, 58, 237, 0.3)) !important;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
         }
 
         .month-day.other-month {
-            background: #e9ecef;
+            background: rgba(107, 114, 128, 0.1);
             opacity: 0.6;
         }
 
         .month-day-number {
             font-weight: bold;
             margin-bottom: 5px;
-            color: #333;
+            color: #ffffff;
+        }
+
+        .theme-light .month-day-number {
+            color: #2C3E50;
         }
 
         .month-day-number.today {
-            color: #e17055;
+            color: #00d4ff;
+            text-shadow: 0 0 8px rgba(0, 212, 255, 0.5);
         }
 
-        /* Уроки */
+        /* УРОКИ */
         .lesson-item {
-            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-            color: #1565c0;
+            background: linear-gradient(45deg, rgba(0, 212, 255, 0.2), rgba(124, 58, 237, 0.2));
             padding: 8px 10px;
             border-radius: 6px;
-            margin-bottom: 6px;
-            border-left: 4px solid #2196f3;
             font-size: 12px;
-            transition: all 0.3s ease;
+            margin-bottom: 6px;
+            border-left: 4px solid #00d4ff;
             position: relative;
             overflow: hidden;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
         }
 
         .lesson-item:hover {
             transform: translateX(3px);
-            box-shadow: 0 3px 12px rgba(33, 150, 243, 0.3);
+            box-shadow: 0 3px 12px rgba(0, 212, 255, 0.3);
         }
 
         .lesson-item::before {
@@ -364,6 +566,12 @@
             100% { transform: translateX(100%); }
         }
 
+        .theme-light .lesson-item {
+            color: #2C3E50;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.15), rgba(30, 58, 138, 0.15));
+            border-left-color: #3b82f6;
+        }
+
         .lesson-time {
             font-weight: 700;
             font-size: 14px;
@@ -375,11 +583,15 @@
             opacity: 0.8;
         }
 
-        /* Состояние без уроков */
+        /* СОСТОЯНИЕ БЕЗ УРОКОВ */
         .no-lessons {
             text-align: center;
             padding: 50px 20px;
-            color: #95a5a6;
+            color: rgba(217, 246, 244, 0.8);
+        }
+
+        .theme-light .no-lessons {
+            color: #7f8c8d;
         }
 
         .no-lessons-icon {
@@ -395,26 +607,31 @@
         }
 
         .no-lessons h3 {
-            color: #7f8c8d;
             margin-bottom: 10px;
             font-size: 18px;
         }
 
         .no-lessons p {
-            color: #95a5a6;
             font-size: 14px;
         }
 
-        /* Информация о часовом поясе */
+        /* ИНФОРМАЦИЯ О ЧАСОВОМ ПОЯСЕ */
         .timezone-info {
-            background: #f8f9fa;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
             padding: 15px;
             border-radius: 12px;
             margin-top: 25px;
             text-align: center;
             font-size: 12px;
-            color: #6c757d;
-            border: 1px solid #e9ecef;
+            color: rgba(217, 246, 244, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .theme-light .timezone-info {
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            color: #7f8c8d;
         }
 
         .timezone-info::before {
@@ -422,154 +639,176 @@
             margin-right: 8px;
         }
 
-        /* Адаптивность */
+        /* АДАПТИВНОСТЬ */
         @media (max-width: 768px) {
-            .widget-container {
-                padding: 15px;
-            }
-            
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 15px;
-            }
-            
-            .stats-value {
-                font-size: 20px;
-            }
-            
-            .widget-title {
-                font-size: 20px;
-            }
-            
-            .week-grid {
+            .container { padding: 15px; }
+            .header h1 { font-size: 2rem; }
+            .stats { gap: 15px; }
+            .stat-item { min-width: 120px; }
+            .stat-number { font-size: 1.5rem; }
+            .week-grid { 
                 grid-template-columns: repeat(3, 1fr);
                 gap: 10px;
                 min-width: unset;
             }
-            
-            .week-day-column {
+            .week-day-column { 
                 min-height: 200px;
                 padding: 10px;
             }
-            
             .schedule-nav-btn {
                 padding: 8px 12px;
                 font-size: 12px;
             }
+            .theme-switcher { 
+                top: 10px; 
+                right: 10px;
+                padding: 6px;
+            }
         }
 
         @media (max-width: 480px) {
-            .widget-container {
-                padding: 12px;
-            }
-            
-            .stats-grid {
-                grid-template-columns: 1fr;
+            .container { padding: 12px; }
+            .header h1 { font-size: 1.8rem; }
+            .stats { 
+                grid-template-columns: repeat(2, 1fr);
                 gap: 10px;
             }
-            
-            .stats-value {
-                font-size: 18px;
-            }
-            
-            .widget-title {
-                font-size: 18px;
-            }
-            
-            .week-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .month-day {
+            .stat-number { font-size: 1.3rem; }
+            .stat-item { padding: 15px 10px; }
+            .week-grid { grid-template-columns: repeat(2, 1fr); }
+            .month-day { 
                 min-height: 80px;
                 padding: 4px;
             }
         }
+
+        /* АНИМАЦИИ */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        
+        /* Применение анимаций */
+        .header, .calendar-section { animation: slideUp 0.6s ease-out; }
+        .lesson-item, .stat-item { animation: fadeIn 0.5s ease-out; }
     </style>
 </head>
-<body>
-    <div class="widget-container">
-        <div class="widget-header">
-            <div class="widget-title">👨‍👩‍👧‍👦 Родительский кабинет</div>
-            <div class="widget-subtitle">{{ student_name }}</div>
-            <div class="parent-badge">💰 Финансовая информация</div>
+<body class="theme-dark">
+    <!-- ПЕРЕКЛЮЧАТЕЛЬ ТЕМ -->
+    <div class="theme-switcher" onclick="toggleTheme()">
+        <span class="theme-icon moon active">🌑</span>
+        <div class="switch-track">
+            <div class="switch-thumb"></div>
         </div>
-
-        <!-- СТАТИСТИКА РОДИТЕЛЕЙ (6 полей) -->
-        <div class="stats-section">
-            <div class="stats-grid">
-                <div class="stats-item">
-                    <div class="stats-value" id="plannedThisMonth">{{ planned_this_month }}</div>
-                    <div class="stats-label">Запланировано уроков в этом месяце</div>
+        <span class="theme-icon sun">☀️</span>
+    </div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>🎓 Личный кабинет</h1>
+            <p>{{ student_name }}</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="plannedThisMonth">{{ planned_this_month }}</div>
+                    <div class="stat-label">Запланировано в этом месяце</div>
                 </div>
-                
-                <div class="stats-item">
-                    <div class="stats-value" id="cancelledLessons">{{ cancelled_lessons }}</div>
-                    <div class="stats-label">Отменено уроков</div>
+                <div class="stat-item">
+                    <div class="stat-number" id="cancelledLessons">{{ cancelled_lessons }}</div>
+                    <div class="stat-label">Отменено уроков</div>
                 </div>
-                
-                <div class="stats-item stock">
-                    <div class="stats-value" id="lessonsInStock">{{ lessons_in_stock }}</div>
-                    <div class="stats-label">Запас уроков</div>
+                <div class="stat-item">
+                    <div class="stat-number" id="lessonsInStock">{{ lessons_in_stock }}</div>
+                    <div class="stat-label">Запас уроков</div>
                 </div>
-                
-                <div class="stats-item">
-                    <div class="stats-value" id="completedLessons">{{ completed_lessons }}</div>
-                    <div class="stats-label">Проведено уроков</div>
+                <div class="stat-item">
+                    <div class="stat-number" id="completedLessons">{{ completed_lessons }}</div>
+                    <div class="stat-label">Проведено уроков</div>
                 </div>
-                
-                <div class="stats-item debt">
-                    <div class="stats-value" id="unpaidLessons">{{ unpaid_lessons }}</div>
-                    <div class="stats-label">Ожидают оплаты</div>
+                <div class="stat-item">
+                    <div class="stat-number" id="unpaidLessons">{{ unpaid_lessons }}</div>
+                    <div class="stat-label">Ожидают оплаты</div>
                 </div>
-                
-                <div class="stats-item financial">
-                    <div class="stats-value" id="lessonPrice">{{ lesson_price|round(0)|int }} ₽</div>
-                    <div class="stats-label">Стоимость урока</div>
+                <div class="stat-item">
+                    <div class="stat-number" id="lessonPrice">{{ lesson_price|round(0)|int }} ₽</div>
+                    <div class="stat-label">Стоимость урока</div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Переключатель видов -->
-        <div class="view-toggle">
-            <div class="view-toggle-container">
-                <button class="view-toggle-btn active" onclick="showWeekView()">📅 Неделя</button>
-                <button class="view-toggle-btn" onclick="showMonthView()">🗓️ Месяц</button>
             </div>
         </div>
 
-        <!-- Основная секция расписания -->
-        <div class="schedule-section">
-            <div class="schedule-header">
-                <a href="#" onclick="navigatePeriod(-1)" class="schedule-nav-btn">← Назад</a>
-                <div class="schedule-title" id="scheduleTitle">Загрузка...</div>
-                <a href="#" onclick="navigatePeriod(1)" class="schedule-nav-btn">Вперед →</a>
-            </div>
-
-            <!-- Недельный вид по умолчанию -->
-            <div class="week-view" id="weekView">
-                <div class="week-grid" id="weekGrid">
-                    <!-- Будет заполнено через JavaScript -->
+        <div class="calendar-section">
+            <h2 class="section-title">Расписание занятий</h2>
+            
+            <!-- Переключатель видов -->
+            <div class="view-toggle">
+                <div class="view-toggle-container">
+                    <button class="view-toggle-btn active" onclick="showWeekView()">Неделя</button>
+                    <button class="view-toggle-btn" onclick="showMonthView()">Месяц</button>
                 </div>
             </div>
 
-            <!-- Месячный вид -->
-            <div class="month-grid" id="monthView">
-                <table class="month-calendar" id="monthCalendar">
-                    <!-- Будет заполнено через JavaScript -->
-                </table>
+            <!-- Основная секция расписания -->
+            <div class="schedule-section">
+                <div class="calendar-header">
+                    <a href="#" onclick="navigatePeriod(-1)" class="schedule-nav-btn">← Назад</a>
+                    <div class="schedule-title" id="scheduleTitle">Загрузка...</div>
+                    <a href="#" onclick="navigatePeriod(1)" class="schedule-nav-btn">Вперед →</a>
+                </div>
+
+                <!-- Недельный вид по умолчанию -->
+                <div class="week-view" id="weekView">
+                    <div class="week-grid" id="weekGrid">
+                        <!-- Будет заполнено через JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Месячный вид -->
+                <div class="month-grid" id="monthView">
+                    <table class="month-calendar" id="monthCalendar">
+                        <!-- Будет заполнено через JavaScript -->
+                    </table>
+                </div>
             </div>
         </div>
 
         <div class="timezone-info">
-            Время отображается в часовом поясе ученика: {{ user_timezone }}
+            Время отображается в вашем часовом поясе: {{ user_timezone }}
         </div>
     </div>
-
-    <script>
+<script>
         // Данные ученика
         const studentName = '{{ student_name }}';
         const userTimezone = '{{ user_timezone }}';
+        let isDark = true;
+
+        // СКРИПТ ПЕРЕКЛЮЧЕНИЯ ТЕМ
+        function toggleTheme() {
+            const body = document.body;
+            const moonIcon = document.querySelector('.theme-icon.moon');
+            const sunIcon = document.querySelector('.theme-icon.sun');
+            
+            isDark = !isDark;
+            
+            if (isDark) {
+                body.className = 'theme-dark';
+                moonIcon.classList.add('active');
+                sunIcon.classList.remove('active');
+            } else {
+                body.className = 'theme-light';
+                moonIcon.classList.remove('active');
+                sunIcon.classList.add('active');
+            }
+            
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+
+        // Восстанавливаем тему при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                isDark = false;
+                document.body.className = 'theme-light';
+                document.querySelector('.theme-icon.moon').classList.remove('active');
+                document.querySelector('.theme-icon.sun').classList.add('active');
+            }
+        });
 
         // Расширяем Date для получения номера недели
         Date.prototype.getWeek = function() {
@@ -638,7 +877,7 @@
             }
         }
 
-        // Загрузка данных недели (используем тот же API)
+        // Загрузка данных недели
         function loadWeekData() {
             const url = `/виджет/${studentName}/api/week/${currentYear}/${currentWeek}`;
             
@@ -759,7 +998,7 @@
                         `;
                     });
                 } else {
-                    html += '<div style="text-align: center; color: #999; font-style: italic; padding: 30px;">Нет занятий</div>';
+                    html += '<div style="text-align: center; color: rgba(217, 246, 244, 0.6); font-style: italic; padding: 30px;">Нет занятий</div>';
                 }
                 
                 html += '</div>';
@@ -846,13 +1085,14 @@
                 position: fixed;
                 top: 20px;
                 right: 20px;
-                background: #f8d7da;
-                color: #721c24;
+                background: linear-gradient(45deg, #ef4444, #dc2626);
+                color: white;
                 padding: 15px;
                 border-radius: 8px;
-                border: 1px solid #f5c6cb;
                 z-index: 1000;
-                animation: slideIn 0.3s ease;
+                animation: slideInRight 0.3s ease;
+                font-weight: bold;
+                box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
             `;
             errorDiv.innerHTML = `⚠️ ${message}`;
             document.body.appendChild(errorDiv);
@@ -865,7 +1105,7 @@
         // Инициализация при загрузке
         document.addEventListener('DOMContentLoaded', function() {
             const today = new Date();
-            currentWeek = Math.ceil((today - new Date(today.getFullYear(), 0, 1)) / (7 * 24 * 60 * 60 * 1000));
+            currentWeek = today.getWeek();
             if (currentWeek < 1) currentWeek = 1;
             if (currentWeek > 52) currentWeek = 52;
             currentMonth = today.getMonth() + 1;
@@ -876,7 +1116,7 @@
 
         // Анимации при загрузке
         function animateElements() {
-            const elements = document.querySelectorAll('.stats-section, .week-day-column, .lesson-item');
+            const elements = document.querySelectorAll('.header, .calendar-section, .lesson-item');
             elements.forEach((el, index) => {
                 el.style.opacity = '0';
                 el.style.transform = 'translateY(20px)';
