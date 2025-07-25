@@ -261,13 +261,13 @@ header::before {
     width: 100%;
     height: 100%;
     background: radial-gradient(circle, rgba(94, 217, 215, 0.1) 0%, transparent 70%);
-    animation: headerPulse 4s ease-in-out infinite;
+    /* animation: headerPulse 4s ease-in-out infinite; */
 }
 
-@keyframes headerPulse {
+/* @keyframes headerPulse {
     0%, 100% { transform: scale(0.8); opacity: 0.5; }
     50% { transform: scale(1.2); opacity: 0.8; }
-}
+} */
 
 header h1 {
     color: var(--text-accent);
@@ -297,7 +297,7 @@ nav a {
     font-weight: 600;
     padding: 12px 24px;
     border-radius: 25px;
-    transition: all 0.3s ease;
+    transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
     background: var(--bg-card);
     border: 1px solid var(--border-secondary);
     backdrop-filter: blur(5px);
@@ -306,26 +306,29 @@ nav a {
 }
 
 nav a::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: var(--accent-gradient);
-    transition: all 0.3s ease;
-    z-index: -1;
+    /* content: ''; */
+    /* position: absolute; */
+    /* top: 0; */
+    /* left: -100%; */
+    /* width: 100%; */
+    /* height: 100%; */
+    /* background: var(--accent-gradient); */
+    /* transition: all 0.3s ease; */
+    /* z-index: -1; */
+    display: none;
 }
 
 nav a:hover::before {
-    left: 0;
+    /* left: 0; */
+    display: none;
 }
 
 nav a:hover {
+    background: var(--accent-gradient);
     color: white;
-    transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(0, 212, 255, 0.3);
     border-color: transparent;
+    transform: none;
 }
 
 /* КНОПКИ */
@@ -547,7 +550,11 @@ tr:last-child td:last-child {
 
 tr:hover td {
     background: rgba(0, 212, 255, 0.1);
-    transform: scale(1.01);
+    transition: background 0.3s ease;
+}
+
+tr, td {
+    transition: background 0.3s ease;
 }
 
 tbody tr {
@@ -555,7 +562,7 @@ tbody tr {
 }
 
 tbody tr:hover {
-    box-shadow: 0 4px 20px rgba(0, 212, 255, 0.2);
+    /* box-shadow: 0 4px 20px rgba(0, 212, 255, 0.2); */
 }
 
 /* Специальные ячейки */
@@ -695,13 +702,13 @@ td[style*="font-weight: bold"] {
     width: 200%;
     height: 200%;
     background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
-    animation: shimmer 3s infinite;
+    /* animation: shimmer 3s infinite; */
 }
 
-@keyframes shimmer {
+/* @keyframes shimmer {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
-}
+} */
 
 .week-day-name {
     font-size: 14px;
@@ -930,15 +937,14 @@ td[style*="font-weight: bold"] {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(10px);
-    z-index: 1000;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.7);
+    z-index: 2000;
     display: flex;
-    justify-content: center;
     align-items: center;
-    animation: modalFadeIn 0.3s ease;
+    justify-content: center;
+    padding: 0;
 }
 
 @keyframes modalFadeIn {
@@ -1775,4 +1781,196 @@ main {
 
 ::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(45deg, #5ED9D7, #a855f7);
+}
+
+/* Увеличение размера текста уроков в расписании */
+.lesson-item, .lesson-card {
+    font-size: 15px;
+    font-weight: 500;
+    padding: 16px 14px 14px 14px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    border-left: 4px solid;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.lesson-time {
+    background: var(--accent-gradient);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 12px;
+    display: inline-block;
+    min-width: 80px;
+    text-align: center;
+}
+
+.lesson-student {
+    font-weight: bold;
+    margin-bottom: 6px;
+    font-size: 16px;
+}
+
+.lesson-subject {
+    font-size: 15px;
+    margin-bottom: 8px;
+    font-style: normal;
+}
+
+/* Выровнять и сделать одинакового размера кнопки на вкладке расписание */
+.schedule-action-btn, .add-lesson-btn, .trial-lesson-btn, .clear-btn {
+    min-width: 200px;
+    max-width: 200px;
+    min-height: 48px;
+    max-height: 48px;
+    padding: 0 24px;
+    font-size: 16px;
+    border-radius: 12px;
+    margin: 0 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-sizing: border-box;
+    margin-bottom: 0 !important;
+}
+
+.schedule-actions {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+/* Убрать анимацию блика при наведении у всех элементов */
+.lesson-item:hover, .lesson-card:hover, .stats-item:hover, .week-day-header:hover, .stats-section:hover {
+    /* Убираем блик */
+    /* background: none; */
+    /* animation: none; */
+    box-shadow: 0 8px 25px rgba(0, 212, 255, 0.3);
+    transform: scale(1.04);
+}
+
+button::before, input[type="submit"]::before, .lesson-item::before, .lesson-card::before, .lesson-slot::before, .stats-item::before {
+    display: none !important;
+}
+
+button:hover::before, input[type="submit"]:hover::before, .lesson-item:hover::before, .lesson-card:hover::before, .lesson-slot:hover::before, .stats-item:hover::before {
+    display: none !important;
+}
+
+.stats-item::before, .stats-item:hover::before {
+    display: none !important;
+}
+
+/* На вкладке ученики убрать анимацию при наведении у строк */
+.students-table tr:hover {
+    background: var(--bg-card);
+    box-shadow: none;
+    transform: none;
+}
+
+/* Цвет имени и фамилии учеников как у ФИО родителя/опекуна */
+.student-name {
+    color: var(--text-primary) !important;
+    font-weight: 500;
+    transition: background 0.3s ease;
+}
+
+.student-surname {
+    color: var(--text-primary) !important;
+    font-weight: 500;
+    transition: box-shadow 0.3s;
+}
+
+.students-table tr:hover .student-name,
+.students-table tr:hover .student-surname {
+    color: var(--text-primary) !important;
+    text-shadow: none !important;
+    background: none !important;
+    -webkit-background-clip: unset !important;
+    -webkit-text-fill-color: unset !important;
+    background-clip: unset !important;
+}
+
+/* Выровнять столбцы дней недели в виджетах */
+.week-widget .week-day-column {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 100px;
+    box-sizing: border-box;
+}
+.week-widget .week-grid {
+    display: flex;
+    flex-direction: row;
+    justify-content: stretch;
+    align-items: stretch;
+}
+
+/* Убрать плашку под кнопками 'назад/вперед' и под подписью дат текущей недели */
+.week-widget .widget-header-bg, .week-widget .widget-dates-bg {
+    display: none;
+}
+
+.card::before, .card:hover::before {
+    display: none !important;
+}
+
+.card:hover {
+    transform: none !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
+    border-color: var(--border-secondary) !important;
+}
+
+.icon-action {
+    color: var(--text-primary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    transition: color 0.3s, transform 0.3s;
+    text-decoration: none;
+    background: none;
+    border: none;
+    padding: 0;
+}
+.icon-action svg {
+    display: block;
+    width: 28px;
+    height: 28px;
+}
+.icon-action:hover, .icon-action:focus {
+    color: #00d4ff;
+    transform: scale(1.2);
+}
+.icon-action.icon-delete:hover, .icon-action.icon-delete:focus {
+    color: #ef4444;
+    transform: scale(1.2);
+}
+
+.modal-card {
+    background: #fff !important;
+    color: var(--text-primary);
+    border-radius: 16px;
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 32px 24px;
+    position: relative;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    display: block;
+}
+[data-theme="dark"] .modal-card {
+    background: #232b36 !important;
+    color: #D9F6F4;
 }
