@@ -43,10 +43,12 @@
         "time": "18:30",
         "student": "Матвей",
         "subject": "Математика",
-        "status": "scheduled",
+        "status": "completed",
         "from_template": true,
         "lesson_type": "regular",
-        "template_period": "2025-07-23 - 2025-07-29"
+        "template_period": "2025-07-23 - 2025-07-29",
+        "auto_completed_at": "2025-07-25T11:23:25.345209",
+        "is_paid": true
     },
     {
         "id": "9fd71bb3",
@@ -134,9 +136,11 @@
         "time": "05:00",
         "student": "Лиза",
         "subject": "Физика",
-        "status": "scheduled",
+        "status": "completed",
         "from_template": false,
-        "lesson_duration": 60
+        "lesson_duration": 60,
+        "auto_completed_at": "2025-07-25T11:23:25.345209",
+        "is_paid": true
     },
     {
         "id": "fccea91e",
@@ -144,11 +148,13 @@
         "time": "12:00",
         "student": "Лиза",
         "subject": "Физика",
-        "status": "scheduled",
+        "status": "completed",
         "from_template": true,
         "lesson_type": "regular",
         "template_period": "2025-07-24 - 2025-07-30",
-        "lesson_duration": 60
+        "lesson_duration": 60,
+        "auto_completed_at": "2025-07-25T14:31:52.053488",
+        "is_paid": true
     },
     {
         "id": "979b66ce",
