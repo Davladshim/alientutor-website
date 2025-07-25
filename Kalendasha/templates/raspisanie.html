@@ -52,19 +52,158 @@
         {% endif %}
         
         <!-- Кнопки действий -->
-        <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: stretch;">
-            <a href="{{ url_for('add_slot') }}" class="btn success">
+        <div class="schedule-actions">
+            <a href="{{ url_for('add_slot') }}" class="btn success schedule-action-btn">
                 Добавить урок
             </a>
-            <button onclick="openTrialLessonModal()" class="btn success">
+            <button onclick="openTrialLessonModal()" class="btn success schedule-action-btn">
                 Пробный урок
             </button>
-            <button onclick="clearSchedule()" class="btn danger">
+            <button onclick="clearSchedule()" class="btn danger schedule-action-btn">
                 Очистить
             </button>
         </div>
     </div>
 </div>
+
+<!-- Модальное окно для пробного урока -->
+<div id="trialLessonModal" class="modal-overlay" style="display:none;">
+  <div class="modal-card">
+    <button onclick="closeTrialLessonModal()" style="position:absolute; top:12px; right:16px; background:none; border:none; font-size:22px; color:var(--text-muted); cursor:pointer;">×</button>
+    <h3 style="text-align:center; color: var(--text-accent); margin-bottom: 24px;">Добавить пробный урок</h3>
+    <form id="trialLessonForm" autocomplete="off" style="display: grid; gap: 18px;">
+      <div>
+        <label style="display:block; margin-bottom:6px; font-weight:600; color:var(--text-primary);">Дата <span style="color:#ef4444;">*</span></label>
+        <input type="date" name="date" required style="width:100%;padding:10px;">
+      </div>
+      <div>
+        <label style="display:block; margin-bottom:6px; font-weight:600; color:var(--text-primary);">Время <span style="color:#ef4444;">*</span></label>
+        <input type="time" name="time" required style="width:100%;padding:10px;">
+      </div>
+      <div>
+        <label style="display:block; margin-bottom:6px; font-weight:600; color:var(--text-primary);">Имя ученика <span style="color:#ef4444;">*</span></label>
+        <input name="student_name" required style="width:100%;padding:10px;">
+      </div>
+      <div>
+        <label style="display:block; margin-bottom:6px; font-weight:600; color:var(--text-primary);">Имя родителя</label>
+        <input name="parent_name" style="width:100%;padding:10px;">
+      </div>
+      <div>
+        <label style="display:block; margin-bottom:6px; font-weight:600; color:var(--text-primary);">Контакты ученика</label>
+        <input name="student_contact" style="width:100%;padding:10px;">
+      </div>
+      <div>
+        <label style="display:block; margin-bottom:6px; font-weight:600; color:var(--text-primary);">Контакты родителя</label>
+        <input name="parent_contact" style="width:100%;padding:10px;">
+      </div>
+      <div>
+        <label style="display:block; margin-bottom:6px; font-weight:600; color:var(--text-primary);">Длительность (мин)</label>
+        <input type="number" name="lesson_duration" min="10" max="300" value="60" style="width:100%;padding:10px;">
+      </div>
+      <div style="text-align:center; margin-top: 10px;">
+        <button type="submit" class="btn success" style="width:100%;">Добавить пробный урок</button>
+      </div>
+    </form>
+    <div id="trialLessonMsg" style="margin-top:16px;text-align:center;color:var(--text-accent);"></div>
+  </div>
+</div>
+
+<script>
+// JavaScript код для переключения видов
+function switchView(viewType) {
+    localStorage.setItem('raspisanie_view', viewType);
+    
+    {% if view_type == 'week' %}
+        const currentYear = {{ year }};
+        const currentPeriod = {{ week }};
+    {% else %}
+        const currentYear = {{ year }};
+        const currentPeriod = {{ month }};
+    {% endif %}
+    
+    if (viewType === 'week') {
+        {% if view_type == 'month' %}
+            window.location.href = `/расписание/week`;
+        {% endif %}
+    } else {
+        {% if view_type == 'week' %}
+            window.location.href = `/расписание/month`;
+        {% endif %}
+    }
+}
+
+// Функция очистки расписания
+function clearSchedule() {
+    if (confirm('Очистить все занятия?\n\nЭто действие удалит ВСЕ уроки из расписания.\nДанные нельзя будет восстановить!\n\nВы уверены?')) {
+        // Создаем форму для отправки POST запроса
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/админ/очистить-расписание';
+        form.style.display = 'none';
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+
+function openTrialLessonModal() {
+  document.getElementById('trialLessonModal').style.display = 'flex';
+  document.getElementById('trialLessonForm').reset();
+  document.getElementById('trialLessonMsg').textContent = '';
+}
+function closeTrialLessonModal() {
+  document.getElementById('trialLessonModal').style.display = 'none';
+}
+
+document.getElementById('trialLessonForm').onsubmit = async function(e) {
+  e.preventDefault();
+  const form = e.target;
+  const data = Object.fromEntries(new FormData(form).entries());
+  if (!data.student_name || !data.date || !data.time) {
+    document.getElementById('trialLessonMsg').textContent = 'Пожалуйста, заполните обязательные поля';
+    return;
+  }
+  document.getElementById('trialLessonMsg').textContent = 'Добавление...';
+  try {
+    const resp = await fetch('/добавить-пробный-урок', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(data)
+    });
+    const res = await resp.json();
+    if (res.success) {
+      document.getElementById('trialLessonMsg').textContent = res.message;
+      setTimeout(() => { closeTrialLessonModal(); window.location.reload(); }, 1200);
+    } else {
+      document.getElementById('trialLessonMsg').textContent = res.error || 'Ошибка';
+    }
+  } catch (err) {
+    document.getElementById('trialLessonMsg').textContent = 'Ошибка отправки';
+  }
+};
+
+// Функция редактирования урока
+function editLessonModal(lessonId, student, time, date, subject, status, duration) {
+    console.log('Редактирование урока:', lessonId, student, time, date, subject, status, duration);
+    alert('Функция редактирования урока будет доработана в следующих версиях.');
+}
+
+// Применяем сохраненный вид при загрузке
+document.addEventListener('DOMContentLoaded', function() {
+    const savedView = localStorage.getItem('raspisanie_view');
+    if (savedView) {
+        const weekBtn = document.getElementById('weekToggle');
+        const monthBtn = document.getElementById('monthToggle');
+        
+        if (savedView === 'week') {
+            weekBtn.classList.add('active');
+            monthBtn.classList.remove('active');
+        } else {
+            weekBtn.classList.remove('active');
+            monthBtn.classList.add('active');
+        }
+    }
+});
+</script>
 
 <!-- Легенда -->
 <div class="color-legend">
@@ -237,71 +376,5 @@
         {% endfor %}
     </div>
 {% endif %}
-
-<script>
-// JavaScript код для переключения видов
-function switchView(viewType) {
-    localStorage.setItem('raspisanie_view', viewType);
-    
-    {% if view_type == 'week' %}
-        const currentYear = {{ year }};
-        const currentPeriod = {{ week }};
-    {% else %}
-        const currentYear = {{ year }};
-        const currentPeriod = {{ month }};
-    {% endif %}
-    
-    if (viewType === 'week') {
-        {% if view_type == 'month' %}
-            window.location.href = `/расписание/week`;
-        {% endif %}
-    } else {
-        {% if view_type == 'week' %}
-            window.location.href = `/расписание/month`;
-        {% endif %}
-    }
-}
-
-// Функция очистки расписания
-function clearSchedule() {
-    if (confirm('Очистить все занятия?\n\nЭто действие удалит ВСЕ уроки из расписания.\nДанные нельзя будет восстановить!\n\nВы уверены?')) {
-        // Создаем форму для отправки POST запроса
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = '/админ/очистить-расписание';
-        form.style.display = 'none';
-        document.body.appendChild(form);
-        form.submit();
-    }
-}
-
-// Функция добавления пробного урока
-function openTrialLessonModal() {
-    alert('Функция добавления пробного урока будет доработана в следующих версиях.');
-}
-
-// Функция редактирования урока
-function editLessonModal(lessonId, student, time, date, subject, status, duration) {
-    console.log('Редактирование урока:', lessonId, student, time, date, subject, status, duration);
-    alert('Функция редактирования урока будет доработана в следующих версиях.');
-}
-
-// Применяем сохраненный вид при загрузке
-document.addEventListener('DOMContentLoaded', function() {
-    const savedView = localStorage.getItem('raspisanie_view');
-    if (savedView) {
-        const weekBtn = document.getElementById('weekToggle');
-        const monthBtn = document.getElementById('monthToggle');
-        
-        if (savedView === 'week') {
-            weekBtn.classList.add('active');
-            monthBtn.classList.remove('active');
-        } else {
-            weekBtn.classList.remove('active');
-            monthBtn.classList.add('active');
-        }
-    }
-});
-</script>
 
 {% endblock %}
